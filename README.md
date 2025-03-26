@@ -4,12 +4,14 @@ To install dependencies:
 
 ```bash
 bun install
+bun installFront --frontend
 ```
 
 To run:
 
 ```bash
-bun run index.ts
+bun dev --backend
+bun devFront --frontend
 ```
 
-This project was created using `bun init` in bun v1.2.5. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+To Manage all **orders** and **inventory** this project was created  
