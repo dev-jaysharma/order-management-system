@@ -9,5 +9,7 @@ const CoilSchema = z.object({
   total_set_weight: z.number(),
 });
 
+const CreateCoilSchema = CoilSchema.omit({ id: true });
+
 export type { Coil };
-export { CoilSchema };
+export { CoilSchema, CreateCoilSchema };

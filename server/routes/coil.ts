@@ -1,9 +1,10 @@
 import { Hono } from "hono";
 import type { Coil } from "../types/coil";
-import { CoilSchema } from "../types/coil";
+import { CoilSchema, CreateCoilSchema } from "../types/coil";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "../db";
 import { coilTable } from "../db/schema/schema";
+import { v4 as uuid } from "uuid";
 
 const fakeData: Coil[] = [
   {
@@ -40,15 +41,16 @@ const coil = new Hono()
     const coil = await getAllCoil();
     return c.json({ coil: coil });
   })
-  .post("/", zValidator("json", CoilSchema), async (c) => {
+  .post("/", zValidator("json", CreateCoilSchema), async (c) => {
     const data = c.req.valid("json");
-    const coilData = CoilSchema.parse(data);
-    const coilDataValid = { ...coilData };
+    const coilData = CreateCoilSchema.parse(data);
+    const id = uuid();
     await db.insert(coilTable).values({
-      name: coilDataValid.name,
-      wire_gauge: coilDataValid.wire_gauge.toString(),
-      coil_weight: coilDataValid.coil_weight.toString(),
-      total_set_weight: coilDataValid.total_set_weight.toString(),
+      id: id,
+      name: coilData.name,
+      wire_gauge:  coilData.wire_gauge.toString(),
+      coil_weight: coilData.coil_weight.toString(),
+      total_set_weight: coilData.total_set_weight.toString(),
     });
     return c.json({ message: "Coil added successfully" });
   })

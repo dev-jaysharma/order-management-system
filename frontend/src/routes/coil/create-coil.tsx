@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CreateCoilSchema } from "@api/types/coil";
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { client } from "@/lib/api";
 
 export const Route = createFileRoute("/coil/create-coil")({
   component: RouteComponent,
@@ -30,12 +32,8 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 function onClickBtn() {
-  toast("Event has been created", {
-    description: "Sunday, December 03, 2023 at 9:00 AM",
-    action: {
-      label: "Undo",
-      onClick: () => console.log("Undo"),
-    },
+  toast("Coil has been created", {
+    description: "Coil has been created successfully",
   });
 }
 
@@ -56,8 +54,12 @@ function FormCard() {
       total_set_weight: 0,
     },
     onSubmit: async ({ value }) => {
-      // Do something with form data
+      // onClickBtn();
       console.log(value);
+      await client.api.coil.$post({
+        json: value,
+      });
+      onClickBtn();
     },
   });
 
@@ -69,15 +71,14 @@ function FormCard() {
       </CardHeader>
       <CardContent>
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
+          onSubmit={form.handleSubmit}
           className="space-y-4"
         >
           <form.Field
             name="name"
+            validators={{
+              onChange: CreateCoilSchema.shape.name,
+            }}
             children={(field) => (
               <>
                 <Label htmlFor={field.name}>Name:</Label>
@@ -96,6 +97,9 @@ function FormCard() {
           />
           <form.Field
             name="wire_gauge"
+            validators={{
+              onChange: CreateCoilSchema.shape.wire_gauge,
+            }}
             children={(field) => (
               <>
                 <Label htmlFor={field.name}>Wire Gauge:</Label>
@@ -114,6 +118,9 @@ function FormCard() {
           />
           <form.Field
             name="coil_weight"
+            validators={{
+              onChange: CreateCoilSchema.shape.coil_weight,
+            }}
             children={(field) => (
               <>
                 <Label htmlFor={field.name}>Coil Weight:</Label>
@@ -132,6 +139,9 @@ function FormCard() {
           />
           <form.Field
             name="total_set_weight"
+            validators={{
+              onChange: CreateCoilSchema.shape.total_set_weight,
+            }}
             children={(field) => (
               <>
                 <Label htmlFor={field.name}>Total Weight Of One Set:</Label>
