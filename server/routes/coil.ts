@@ -28,8 +28,9 @@ const fakeData: Coil[] = [
 ];
 
 const coil = new Hono()
-  .get("/", (c) => {
-    return c.json({ ...fakeData });
+  .get("/", async (c) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return c.json({ coil: fakeData });
   })
   .post("/", zValidator("json", CoilSchema), (c) => {
     const data = c.req.valid("json");
@@ -47,6 +48,31 @@ const coil = new Hono()
       return c.json({ message: "Coil not found" }, 404);
     }
     return c.json(coil);
+  })
+  .delete("/delete/:name", (c) => {
+    const name = c.req.param("name");
+    const index = fakeData.findIndex(
+      (coil) => coil.name.toLowerCase() === name.toLowerCase()
+    );
+    if (index === -1) {
+      return c.json({ message: "Coil not found" }, 404);
+    }
+    fakeData.splice(index, 1);
+    return c.json({ message: "Coil deleted" });
+  })
+  .put("/update/:name", zValidator("json", CoilSchema), (c) => {
+    const name = c.req.param("name");
+    const data = c.req.valid("json");
+    const coilData = CoilSchema.parse(data);
+    const index = fakeData.findIndex(
+      (coil) => coil.name.toLowerCase() === name.toLowerCase()
+    );
+    if (index === -1) {
+      return c.json({ message: "Coil not found" }, 404);
+    }
+    const coilDataValid = { ...coilData };
+    fakeData[index] = coilDataValid;
+    return c.json({ message: "Coil updated" });
   });
 
 export { coil };
