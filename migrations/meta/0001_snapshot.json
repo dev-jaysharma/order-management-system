@@ -1,0 +1,68 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "4f90011b-3575-4ba2-9851-f1f4c9c17507",
+  "prevId": "42d6d8d2-d339-4e65-9551-cc8476e98f17",
+  "tables": {
+    "coil": {
+      "name": "coil",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'Hey!'"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "wire_gauge": {
+          "name": "wire_gauge",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "coil_weight": {
+          "name": "coil_weight",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "total_set_weight": {
+          "name": "total_set_weight",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {
+      "\"foo\"": "\"coil\""
+    },
+    "columns": {
+      "\"coil\".\"bar\"": "\"coil\".\"id\""
+    }
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

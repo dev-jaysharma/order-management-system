@@ -174,7 +174,7 @@ function FormCard() {
       <Label htmlFor={field.name}>Name:</Label>
       <Input
         id={field.name}
-        name={field.name}
+        name={field.name}x
         value={field.state.value}
         onBlur={field.handleBlur}
         type="text"
