@@ -5,6 +5,7 @@ import { zValidator } from "@hono/zod-validator";
 import { db } from "../db";
 import { coilTable } from "../db/schema/schema";
 import { v4 as uuid } from "uuid";
+import { eq } from "drizzle-orm";
 
 const fakeData: Coil[] = [
   {
@@ -55,38 +56,34 @@ const coil = new Hono()
     return c.json({ message: "Coil added successfully" });
   })
   .get("/search/:name", (c) => {
+    // const name = c.req.param("name");
+    // const coil = fakeData.find(
+    //   (coil) => coil.name.toLowerCase() === name.toLowerCase()
+    // );
+    // if (!coil) {
+    //   return c.json({ message: "Coil not found" }, 404);
+    // }
+    // return c.json(coil);
     const name = c.req.param("name");
-    const coil = fakeData.find(
-      (coil) => coil.name.toLowerCase() === name.toLowerCase()
-    );
-    if (!coil) {
-      return c.json({ message: "Coil not found" }, 404);
-    }
-    return c.json(coil);
+    const coil = db.select().from(coilTable).where(eq(coilTable.name, name));
+    return c.json({ coil: coil });
   })
-  .delete("/delete/:name", (c) => {
+  .delete("/delete/:name", async (c) => {
     const name = c.req.param("name");
-    const index = fakeData.findIndex(
-      (coil) => coil.name.toLowerCase() === name.toLowerCase()
-    );
-    if (index === -1) {
-      return c.json({ message: "Coil not found" }, 404);
-    }
-    fakeData.splice(index, 1);
+    await db.delete(coilTable).where(eq(coilTable.name, name));
+    // console.log(`Deleted ${result} rows`);
     return c.json({ message: "Coil deleted" });
   })
-  .put("/update/:name", zValidator("json", CoilSchema), (c) => {
+  .put("/update/:name", zValidator("json", CoilSchema), async (c) => {
     const name = c.req.param("name");
     const data = c.req.valid("json");
     const coilData = CoilSchema.parse(data);
-    const index = fakeData.findIndex(
-      (coil) => coil.name.toLowerCase() === name.toLowerCase()
-    );
-    if (index === -1) {
-      return c.json({ message: "Coil not found" }, 404);
-    }
-    const coilDataValid = { ...coilData };
-    fakeData[index] = coilDataValid;
+    await db.update(coilTable).set({
+      name: coilData.name,
+      wire_gauge: coilData.wire_gauge.toString(),
+      coil_weight: coilData.coil_weight.toString(),
+      total_set_weight: coilData.total_set_weight.toString(),
+    }).where(eq(coilTable.name, name));
     return c.json({ message: "Coil updated" });
   });
 

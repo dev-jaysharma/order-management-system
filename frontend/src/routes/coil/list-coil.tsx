@@ -26,6 +26,10 @@ async function getAllCoil() {
   throw new Error("eerror fetching data");
 }
 
+const allCoils = getAllCoil();
+
+export { allCoils }  
+
 function RouteComponent() {
   const { isPending, error, data } = useQuery({
     queryKey: ["getAllCoil"],

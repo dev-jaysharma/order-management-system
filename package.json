@@ -11,6 +11,7 @@
     "dev": "bun --watch server/index.ts",
     "start": "bun server/index.ts",
     "devFront": "cd ./frontend && bun dev",
+    "buildFront": "cd ./frontend && bun run build", 
     "installFront": "cd ./frontend && bun install",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

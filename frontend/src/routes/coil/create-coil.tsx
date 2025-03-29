@@ -165,7 +165,6 @@ function FormCard() {
           type="submit"
           onClick={() => {
             form.handleSubmit();
-            onClickBtn();
           }}
         >
           Create Coil

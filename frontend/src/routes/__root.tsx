@@ -1,4 +1,12 @@
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
   Menubar,
   MenubarContent,
   MenubarItem,
@@ -20,6 +28,23 @@ export const Route = createRootRoute({
       <TanStackRouterDevtools />
     </>
   ),
+  notFoundComponent: () => {
+    return (
+      <div className="flex items-center justify-center h-[90vh]">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>404 Not Found</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+    );
+  },
 });
 
 // const Nav = () => {
@@ -94,6 +119,7 @@ interface NavHelperProps {
   path2: string;
   path3: string;
   path4: string;
+  children?: React.ReactNode;
 }
 
 const NavHelper = ({
@@ -106,6 +132,7 @@ const NavHelper = ({
   path2,
   path3,
   path4,
+  children,
 }: NavHelperProps) => {
   return (
     <Menubar>
@@ -127,6 +154,7 @@ const NavHelper = ({
           <MenubarItem>
             <Link to={path3}>{fourth}</Link>
           </MenubarItem>
+          {children}
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
