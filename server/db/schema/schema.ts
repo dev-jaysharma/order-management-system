@@ -9,3 +9,10 @@ export const coilTable = sqliteTable("coil", {
   total_set_weight: numeric("total_set_weight").notNull(),
 });
 
+export const orderTable = sqliteTable("order", {
+  id: text("id").notNull().primaryKey(),
+  name: text("name").notNull(),
+  wire_gauge: numeric("wire_gauge").notNull(),
+  coil_weight: numeric("coil_weight").notNull(),
+  total_set_weight: numeric("total_set_weight").notNull(),
+});

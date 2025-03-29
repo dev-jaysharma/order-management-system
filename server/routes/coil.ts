@@ -7,30 +7,6 @@ import { coilTable } from "../db/schema/schema";
 import { v4 as uuid } from "uuid";
 import { eq } from "drizzle-orm";
 
-const fakeData: Coil[] = [
-  {
-    id: "COIL001",
-    name: "Standard Steel Coil",
-    wire_gauge: 18,
-    coil_weight: 2500,
-    total_set_weight: 2750,
-  },
-  {
-    id: "COIL002",
-    name: "Heavy Duty Coil",
-    wire_gauge: 14,
-    coil_weight: 3000,
-    total_set_weight: 3300,
-  },
-  {
-    id: "COIL003",
-    name: "Light Gauge Coil",
-    wire_gauge: 22,
-    coil_weight: 1800,
-    total_set_weight: 2000,
-  },
-];
-
 const getAllCoil = async () => {
   const data = await db.select().from(coilTable);
   return data;
