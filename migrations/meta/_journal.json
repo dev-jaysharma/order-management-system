@@ -15,6 +15,13 @@
       "when": 1743162460460,
       "tag": "0001_open_moon_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1743319326615,
+      "tag": "0002_light_franklin_storm",
+      "breakpoints": true
     }
   ]
 }

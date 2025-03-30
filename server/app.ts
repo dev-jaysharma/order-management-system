@@ -8,11 +8,11 @@ const app = new Hono();
 app.use(logger());
 // app.basePath =
 const route = app.basePath("/api").route("/coil", coil).route("/order", order);
-app.use("*", serveStatic({ root: "./frontend/dist" }));
-// app.use('*', serveStatic({ path: './frontend/dist/index.html' }));
-app.get("*", (c) => {
-  return c.html(Bun.file("./frontend/dist/index.html").text());
-});
+// app.use("*", serveStatic({ root: "./frontend/dist" }));
+// // app.use('*', serveStatic({ path: './frontend/dist/index.html' }));
+// app.get("*", (c) => {
+//   return c.html(Bun.file("./frontend/dist/index.html").text());
+// });
 
 export default app;
 export type AppType = typeof route;
