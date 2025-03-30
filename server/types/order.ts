@@ -1,16 +1,15 @@
 import { z } from "zod";
+import { v4 as uuidv4 } from 'uuid';
 
-const OrderSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  wire_gauge: z.number(),
-  coil_weight: z.number(),
-  total_set_weight: z.number(),
+export const OrderSchema = z.object({
+  id: z.string().uuid().default(uuidv4()),
+  coilName: z.string(),
+  orderDate: z.string().datetime(),
+  reqDate: z.string(),
+  quantity: z.string(),
+  amount: z.string(),
 });
 
-type Order = z.infer<typeof OrderSchema>;
-const CreateOrderSchema = OrderSchema.omit({ id: true });
-const UpdateOrderSchema = OrderSchema.omit({ id: true });
-
-export type { Order}
-export { OrderSchema, CreateOrderSchema, UpdateOrderSchema };
+export type Order = z.infer<typeof OrderSchema>;
+export const CreateOrderSchema = OrderSchema.omit({ id: true });
+export const UpdateOrderSchema = OrderSchema.omit({ id: true });

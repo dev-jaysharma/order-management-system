@@ -1,15 +1,15 @@
 import { z } from "zod";
+import { v4 as uuidv4 } from 'uuid';
 
-type Coil = z.infer<typeof CoilSchema>;
-const CoilSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  wire_gauge: z.number(),
-  coil_weight: z.number(),
-  total_set_weight: z.number(),
+export const CoilSchema = z.object({
+  id: z.string().uuid().default(uuidv4()),
+  coilName: z.string(),
+  ProductCode: z.string(),
+  coilDescription: z.string(),
+  unitRate: z.string(),
+  wireGauge: z.string(),
 });
 
-const CreateCoilSchema = CoilSchema.omit({ id: true });
-
-export type { Coil };
-export { CoilSchema, CreateCoilSchema };
+export type Coil = z.infer<typeof CoilSchema>;
+export const CreateCoilSchema = CoilSchema.omit({ id: true });
+export const UpdateCoilSchema = CoilSchema.omit({ id: true });
